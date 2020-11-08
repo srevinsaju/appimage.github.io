@@ -35,10 +35,7 @@ jobs:
           set +x
           git pull origin master
           git -P log | grep $GITHUB_SHA
-          git diff --name-only $GITHUB_SHA origin/master | grep data || true 
-          if [[ $? -eq 1 ]]; then 
-            exit 0
-          fi
+          git diff --name-only $GITHUB_SHA origin/master | grep data 
           FILES="$(git diff --name-only $GITHUB_SHA origin/master | grep data)"
           echo "FILES=$FILES" >> $GITHUB_ENV
           

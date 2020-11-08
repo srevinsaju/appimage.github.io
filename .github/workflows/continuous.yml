@@ -9,9 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        container: ['ubuntu:18.04', 'ubuntu:16.04'] # r: full or m: minimal
+        container: ['bionic']
     container:
-      image: ${{ matrix.container }}
+      image: docker.pkg.github.com/srevinsaju/appimagetestenv-${{ matrix.container }}/appimagetestenv-${{ matrix.container }}:latest
     steps:
       - name: Setup up User
         run: |
@@ -22,28 +22,6 @@ jobs:
           usermod -aG sudo github
           su - github
       
-      - name: Install base dependencies
-        run: |
-          sudo apt-get -qqy update
-          sudo apt -qqy install wget curl jq ruby-full build-essential libssl-dev libcurl4-gnutls-dev libexpat1-dev gettext unzip libz-dev  
-
-          # install git
-          mkdir /tmp/git -p && cd /tmp/git
-          wget -q https://github.com/git/git/archive/v2.29.0.tar.gz
-          tar -xf v2.29.0.tar.gz
-          cd git-*
-          make prefix=/usr/local all
-          sudo make prefix=/usr/local install
-
-          # install npm
-          curl -sL https://deb.nodesource.com/setup_10.x | sudo bash
-          sudo apt-get -y install nodejs
-          gem install dupervisor -v 1.0.5
-          npm install -g asar
-
-      - name: Setup Git
-        run: |
-
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
@@ -64,20 +42,6 @@ jobs:
           FILES="data/Subsurface"
           echo "FILES=$FILES" >> $GITHUB_ENV
           
-      - name: Install Destop Environment
-        run: |
-          sudo apt-get -qq -y install imagemagick libasound2-dev pulseaudio-utils alsa-utils alsa-oss libjack0 desktop-file-utils xmlstarlet xterm xvfb icewm x11-utils x11-apps netpbm xdotool libgl1-mesa-dri libgl1-mesa-dev mesa-utils libosmesa6 libsdl1.2-dev fonts-wqy-microhei libfile-mimeinfo-perl libx11-xcb1 libxcb-xkb1 libxcb-* libxcb-render-util0 libxkbcommon-x11-0 libxkbcommon0 > /dev/null # appstream # TODO: Cache me!
-          mkdir $HOME/.icewm/
-          echo "ShowTaskBar = 0" > $HOME/.icewm/preferences
-          echo "TaskBarAutoHide = 1" > $HOME/.icewm/preferences
-          echo "TaskBarShowWorkspaces = 0" > $HOME/.icewm/preferences
-          echo "TaskBarShowAllWindows = 0" > $HOME/.icewm/preferences
-          echo "TaskBarShowClock = 0" > $HOME/.icewm/preferences
-          echo "TaskBarShowMailboxStatus = 0" > $HOME/.icewm/preferences
-          echo "TaskBarShowCPUStatus = 0" > $HOME/.icewm/preferences
-          echo "TaskBarShowWindowListMenu = 0" > $HOME/.icewm/preferences
-
-
       - name: Test
         run: |
           export APPIMAGE_EXTRACT_AND_RUN=1

@@ -318,7 +318,7 @@ ls "$APPDIR"
 cp "$APPDIR"/*.desktop database/$INPUTBASENAME/
 readlink -f database/$INPUTBASENAME/*.desktop
 DATAFILE=$(readlink -f database/$INPUTBASENAME/*.desktop | head -n 1)
-sudo chown $USER "$DATAFILE" # https://github.com/AppImage/AppImageHub/issues/19
+sudo chown $(whoami) "$DATAFILE" # https://github.com/AppImage/AppImageHub/issues/19
 chmod 644 "$DATAFILE" # https://github.com/AppImage/AppImageHub/issues/19
 
 echo "" >> "$DATAFILE"

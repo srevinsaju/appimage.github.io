@@ -39,7 +39,7 @@ jobs:
           if [[ $? -eq 1 ]]; then 
             exit 0
           fi
-          FILES="data/appimagetool"
+          FILES="$(git diff --name-only $GITHUB_SHA origin/master | grep data)"
           echo "FILES=$FILES" >> $GITHUB_ENV
           
       - name: Test

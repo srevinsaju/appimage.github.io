@@ -106,6 +106,7 @@ if [ x"$TYPE" == x2 ] ; then
   sleep 1
   APPDIR="/tmp/squashfs-root" # $(mount | grep tmp | tail -n 1 | cut -d " " -f 3)
   echo $APPDIR
+  echo PWD=$PWD 
   bash appdir-lint.sh "$APPDIR"
   # later # kill $PID # fuse
   # https://github.com/AppImage/AppImageSpec/blob/master/draft.md#updateinformation

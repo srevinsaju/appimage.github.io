@@ -25,18 +25,8 @@ jobs:
       - name: Install base dependencies
         run: |
           sudo apt-get -qqy update
-          sudo apt -qqy install wget curl jq ruby-full make
+          sudo apt -qqy install wget curl jq ruby-full git
 
-          # install git
-          oldpath="$PWD"
-          mkdir /tmp/git -p && cd /tmp/git
-          wget https://github.com/git/git/archive/v2.23.0.tar.gz
-          tar -zxf v2.23.0.tar.gz
-          cd git-2.23.0/
-          make prefix=/usr/local all
-          make prefix=/usr/local install
-          cd "$oldpath"
-          
           # istall npm
           curl -sL https://deb.nodesource.com/setup_10.x | sudo bash
           sudo apt-get -y install nodejs

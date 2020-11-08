@@ -1,5 +1,5 @@
 #!/bin/bash
-
+export APPIMAGE_EXTRACT_AND_RUN=1
 URL=$(cat $1 | head -n 1)
 echo $URL
 

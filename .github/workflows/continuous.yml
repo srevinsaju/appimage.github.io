@@ -56,7 +56,6 @@ jobs:
           echo "Detected changes in the following files"
           set +x
           git pull origin master
-          git branch -a
           git -P log | grep $GITHUB_SHA
           git diff --name-only $GITHUB_SHA..master | grep data 
           if [[ $? -eq 1 ]]; exit 0

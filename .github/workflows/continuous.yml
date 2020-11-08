@@ -61,7 +61,7 @@ jobs:
           if [[ $? -eq 1 ]]; then 
             exit 0
           fi
-          FILES="data/guiscrcpy"
+          FILES="data/Subsurface"
           echo "FILES=$FILES" >> $GITHUB_ENV
           
       - name: Install Destop Environment

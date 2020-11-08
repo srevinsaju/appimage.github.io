@@ -58,7 +58,9 @@ jobs:
           git pull origin master
           git -P log | grep $GITHUB_SHA
           git diff --name-only $GITHUB_SHA origin/master | grep data || true 
-          if [[ $? -eq 1 ]]; exit 0
+          if [[ $? -eq 1 ]]; then 
+            exit 0
+          fi
           FILES="data/guiscrcpy"
           echo "FILES=$FILES" >> $GITHUB_ENV
           

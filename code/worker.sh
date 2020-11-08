@@ -244,9 +244,9 @@ sudo sysctl kernel.unprivileged_userns_clone=1 # https://github.com/AppImage/app
 
 # reset does not work here
 if [ x"$TERMINAL" == xfalse ] ; then
-  sudo firejail --quiet --noprofile --net=none --appimage ./"$FILENAME" &
+  ./"$FILENAME" &
 else
-  xterm -hold -e sudo firejail --quiet --noprofile --net=none --appimage ./"$FILENAME" --help &
+  xterm -hold -e ./"$FILENAME" --help &
 fi
 APID=$!
 sleep 15

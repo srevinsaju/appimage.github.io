@@ -35,8 +35,8 @@ jobs:
           set +x
           git pull origin master
           git -P log | grep $GITHUB_SHA
-          git diff --name-only $GITHUB_SHA origin/master | grep data 
-          FILES="$(git diff --name-only $GITHUB_SHA origin/master | grep data | tail -n 1)"
+          git diff --name-only $GITHUB_SHA origin/gh-actions | grep data 
+          FILES="$(git diff --name-only $GITHUB_SHA origin/gh-actions | grep data | tail -n 1)"
           echo "FILES=$FILES" >> $GITHUB_ENV
           
       - name: Test
@@ -46,7 +46,7 @@ jobs:
           xvfb-run --auto-servernum bash -e code/worker.sh $(readlink -f "$FILES") ;
 
       - name: Report success
-        if: ${{ github.event_name == 'pull_request' }}
+        if: ${{ always() }}
         uses: thollander/actions-comment-pull-request@master
         with:
           message: |

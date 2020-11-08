@@ -11,7 +11,7 @@ jobs:
       matrix:
         container: ['bionic']
     container:
-      image: docker.pkg.github.com/srevinsaju/appimagetestenv-${{ matrix.container }}/appimagetestenv-${{ matrix.container }}:latest
+      image: srevinsaju/docker-appimagehub-testenv
     steps:
       - name: Setup up User
         run: |

@@ -101,7 +101,8 @@ if [ x"$TYPE" == x2 ] ; then
   fi
   echo $PWD
   # if [ -d squashfs-root ] ; then rm -rf squashfs-root/ ; fi
-  TARGET_APPIMAGE="$FILENAME" cd /tmp && ./appimagetool* --appimage-extract
+  TARGET_APPIMAGE="$FILENAME"
+  cd /tmp && `realpath "$FILENAME"` --appimage-extract
   PID=$!
   cd $GITHUB_WORKSPACE 
   sleep 1

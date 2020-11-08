@@ -28,7 +28,9 @@ jobs:
       - name: Install base dependencies
         run: |
           sudo apt-get -qqy update
-          sudo apt -qqy install git wget curl jq npm ruby-full
+          sudo apt -qqy install git wget curl jq ruby-full
+          curl -sL https://deb.nodesource.com/setup_10.x | sudo bash
+          sudo apt-get -y install nodejs
           sudo bash code/prep-dummy-soundcard.sh
           gem install dupervisor -v 1.0.5
           npm install -g asar

@@ -413,6 +413,7 @@ sudo chmod a+x appstreamcli-x86_64.AppImage
 ./appstreamcli-x86_64.AppImage --appimage-extract ; mv squashfs-root appstreamcli.AppDir # TODO: remove need for this
 # Does not seem to work 
 echo "$(realpath appstreamcli.AppDir)/root_overlay/lib/x86_64-linux-gnu/ld-2.23.so --library-path $(realpath appstreamcli.AppDir)/root_overlay/usr/lib/x86_64-linux-gnu/ $(realpath appstreamcli.AppDir)/root_overlay/usr/bin/appstreamcli" | sudo tee -a /usr/bin/appstreamcli
+sudo chmod +x /usr/bin/appstreamcli
 # For Jekyll Now
 ##### for INPUTBASENAME in database/*; do
   INPUTBASENAME=${INPUTBASENAME##*/} # Remove path up to last /

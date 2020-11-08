@@ -54,6 +54,7 @@ jobs:
           fi
 
       - name: Report success
+        if: ${{ github.event_name == 'pull_request' }}
         uses: thollander/actions-comment-pull-request@master
         with:
           message: |

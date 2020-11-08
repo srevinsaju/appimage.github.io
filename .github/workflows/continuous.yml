@@ -46,7 +46,7 @@ jobs:
           xvfb-run --auto-servernum bash -e code/worker.sh $(readlink -f "$FILES") ;
 
       - name: Report success
-        if: ${{ always() && github.event_name == 'pull_request' }}
+        if: always()
         uses: thollander/actions-comment-pull-request@master
         with:
           message: |

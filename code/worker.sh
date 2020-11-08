@@ -100,12 +100,10 @@ if [ x"$TYPE" == x2 ] ; then
     chmod +x appimagetool*
   fi
   # if [ -d squashfs-root ] ; then rm -rf squashfs-root/ ; fi
-  TARGET_APPIMAGE="$FILENAME" ./appimagetool* --appimage-mount &
+  TARGET_APPIMAGE="$FILENAME" cd /tmp && ./appimagetool* --appimage-extract 
   PID=$!
   sleep 1
-  mount | grep tmp | tail -n 1
-  mount
-  APPDIR=$(mount | grep tmp | tail -n 1 | cut -d " " -f 3)
+  APPDIR="/tmp/squashfs-root" # $(mount | grep tmp | tail -n 1 | cut -d " " -f 3)
   echo $APPDIR
   bash appdir-lint.sh "$APPDIR"
   # later # kill $PID # fuse

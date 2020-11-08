@@ -25,13 +25,24 @@ jobs:
       - name: Install base dependencies
         run: |
           sudo apt-get -qqy update
-          sudo apt -qqy install wget curl jq ruby-full git
+          sudo apt -qqy install wget curl jq ruby-full 
 
-          # istall npm
+          # install git
+          mkdir /tmp/git -p && cd /tmp/git
+          wget https://github.com/git/git/archive/v2.29.0.tar.gz
+          tar -cxf v2.29.0.tar.gz
+          cd git-*
+          make prefix=/usr/local all
+          sudo make prefix=/usr/local install
+
+          # install npm
           curl -sL https://deb.nodesource.com/setup_10.x | sudo bash
           sudo apt-get -y install nodejs
           gem install dupervisor -v 1.0.5
           npm install -g asar
+
+      - name: Setup Git
+        run: |
 
       - name: Checkout repository
         uses: actions/checkout@v2

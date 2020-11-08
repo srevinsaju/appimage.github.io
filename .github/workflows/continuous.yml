@@ -57,9 +57,9 @@ jobs:
           set +x
           git pull origin master
           git -P log | grep $GITHUB_SHA
-          git diff --name-only $GITHUB_SHA origin/master | grep data 
+          git diff --name-only $GITHUB_SHA origin/master | grep data || true 
           if [[ $? -eq 1 ]]; exit 0
-          FILES=$(git diff --name-only $GITHUB_SHA origin/master | grep data)
+          FILES="data/guiscrcpy"
           echo "FILES=$FILES" >> $GITHUB_ENV
           
       - name: Install Destop Environment

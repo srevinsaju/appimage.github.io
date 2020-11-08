@@ -425,7 +425,7 @@ alias appstreamcli='appstreamcli.AppDir/root_overlay/lib/x86_64-linux-gnu/ld-2.2
   # Description
   DESKTOP_COMMENT=$(grep "^Comment=.*" database/$INPUTBASENAME/*.desktop | cut -d '=' -f 2- )
   if [ -f database/$INPUTBASENAME/*appdata.xml ] ; then
-    ./appstreamcli-x86_64.AppImage --appimage-extract-and-run convert database/$INPUTBASENAME/*appdata.xml database/$INPUTBASENAME/appdata.yaml
+    appstreamcli convert database/$INPUTBASENAME/*appdata.xml database/$INPUTBASENAME/appdata.yaml
     SUMMARY=$(cat database/$INPUTBASENAME/*appdata.xml | xmlstarlet sel -t -m "/component/summary[1]" -v .) || true
     if [ x"$SUMMARY" != x"" ] ; then
       echo "description: $SUMMARY" >> apps/$INPUTBASENAME.md

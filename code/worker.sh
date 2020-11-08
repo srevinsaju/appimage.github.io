@@ -3,8 +3,8 @@
 URL=$(cat $1 | head -n 1)
 echo $URL
 
-if [ x"$TRAVIS_PULL_REQUEST" == xfalse ] ; then
-  git checkout "$TRAVIS_BRANCH"
+if [[ "$GITHUB_REF" == *"/pull/"* ]] ; then
+  IS_PULL_REQUEST=1
 fi
 
 INPUTBASENAME=$(basename $1)
@@ -531,34 +531,16 @@ echo "==========================================="
 
 # If this a PR, then just check whether the files have generated
 # See https://github.com/AppImage/appimage.github.io/issues/476 for more information
-if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then 
+if [ "$IS_PULL_REQUEST" -eq 1 ]; then 
   cat "apps/${INPUTBASENAME}.md" || exit 1
   cat "database/${INPUTBASENAME}/"*.desktop || exit 1 # Asterisk must not be inside quotes, https://travis-ci.org/AppImage/appimage.github.io/builds/360847207#L782
   ls -lh "database/${INPUTBASENAME}/screenshot.png" || exit 1
-  curl --upload-file "database/${INPUTBASENAME}/screenshot.png" https://transfersh.com/screenshot.png 
-  echo "Since we are on a TRAVIS_PULL_REQUEST and the required files are there, we are assuming the test is OK"
+  SCREENSHOT_URL=`curl --upload-file "database/${INPUTBASENAME}/screenshot.png" https://transfersh.com/screenshot.png`
+  echo $SCREENSHOT_URL
+  if [ "$GITHUB_ACTIONS" == true ]; 
+      echo "SCREENSHOT_URL=$SCREENSHOT_URL" >> $GITHUB_ENV
+  fi
+  echo "Since we are on a Pull Request and the required files are there, we are assuming the test is OK"
   exit 0
 fi
 
-# If this is not a PR, then git add the "database file" and git commit with "[ci skip]" and git push
-# https://gist.github.com/willprice/e07efd73fb7f13f917ea
-
-git pull # To prevent from: error: failed to push some refs to 'https://[secure]@github.com/AppImage/AppImageHub.git'
-git config --global user.email "travis@travis-ci.org"
-git config --global user.name "Travis CI"
-set -x
-( cd database/ ; git diff ; git add . ; git rm *.yaml || true ) # Recursively add everything in this directory
-( cd apps/ ; git diff ; git add . || true ) # Recursively add everything in this directory
-git commit -F- <<EOF || true # Always succeeed (even if there was nothing to add)
-Add automatically parsed data ($TRAVIS_BUILD_NUMBER)
-[ci skip]
-EOF
-set +x
-git remote add deploy https://${GITHUB_TOKEN}@github.com/$TRAVIS_REPO_SLUG.git > /dev/null 2>&1
-# wrong logic? # if [ x"$TRAVIS_PULL_REQUEST" == x"false" ] ; then
-    set -x
-    git push --set-upstream deploy
-    set +x
-# wrong logic? # else
-# wrong logic? #     echo "Not runing 'git push --set-upstream deploy' because this build does NOT have TRAVIS_PULL_REQUEST=false"
-# wrong logic? # fi

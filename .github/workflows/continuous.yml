@@ -1,0 +1,70 @@
+
+name: Continuous
+on: 
+  - push
+
+jobs:
+
+  AppImage:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        container: ['ubuntu:18.04', 'ubuntu:16.04'] # r: full or m: minimal
+    container:
+      image: ${{ matrix.container }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Setup up User
+        run: |
+          apt update
+          apt install -y sudo
+          echo "github ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+          useradd -m github
+          usermod -aG sudo github
+          su - github
+      
+      - name: Install base dependencies
+        run: |
+          sudo apt-get -qqy update
+          sudo apt -qqy install git wget curl jq npm ruby-full
+          sudo bash code/prep-dummy-soundcard.sh
+          gem install dupervisor -v 1.0.5
+          npm install -g asar
+
+      - name: Detect the newly added apps
+        run: |
+          # show the changed files
+          echo "Detected changes in the following files"
+          set +x
+          git diff --name-only $GITHUB_SHA..master | grep data 
+          if [[ $? -eq 1 ]]; exit 0
+          FILES=$(git diff --name-only $GITHUB_SHA..master | grep data)
+          echo "FILES=$FILES" >> $GITHUB_ENV
+          
+      - name: Install Destop Environment
+        run: |
+          sudo apt-get -qq -y install imagemagick libasound2-dev pulseaudio-utils alsa-utils alsa-oss libjack0 desktop-file-utils xmlstarlet xterm xvfb icewm x11-utils x11-apps netpbm xdotool libgl1-mesa-dri libgl1-mesa-dev mesa-utils libosmesa6 libsdl1.2-dev fonts-wqy-microhei libfile-mimeinfo-perl libx11-xcb1 libxcb-xkb1 libxcb-* libxcb-render-util0 libxkbcommon-x11-0 libxkbcommon0 > /dev/null # appstream # TODO: Cache me!
+          mkdir $HOME/.icewm/
+          echo "ShowTaskBar = 0" > $HOME/.icewm/preferences
+          echo "TaskBarAutoHide = 1" > $HOME/.icewm/preferences
+          echo "TaskBarShowWorkspaces = 0" > $HOME/.icewm/preferences
+          echo "TaskBarShowAllWindows = 0" > $HOME/.icewm/preferences
+          echo "TaskBarShowClock = 0" > $HOME/.icewm/preferences
+          echo "TaskBarShowMailboxStatus = 0" > $HOME/.icewm/preferences
+          echo "TaskBarShowCPUStatus = 0" > $HOME/.icewm/preferences
+          echo "TaskBarShowWindowListMenu = 0" > $HOME/.icewm/preferences
+
+
+      - name: Test
+        run: |
+          export APPIMAGE_EXTRACT_AND_RUN=1
+          echo "$FILES" ; if [ x"$FILES" == x ] ; then echo "Variable FILES is empty." && exit 1 ; fi
+          if [ x"$FILES" != x ] ; then 
+            for FILE in $FILES ; do 
+              echo "$FILE" ; 
+              xvfb-run --auto-servernum bash -e code/worker.sh $(readlink -f "$FILE") ;
+            done ;
+          fi
+

@@ -9,9 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        container: ['bionic']
+        container: ['bionic', 'xenial']
     container:
-      image: srevinsaju/docker-appimagehub-testenv
+      image: srevinsaju/appimagetestenv-${{ matrix.container }}
     steps:
       - name: Setup up User
         run: |
@@ -52,4 +52,12 @@ jobs:
               xvfb-run --auto-servernum bash -e code/worker.sh $(readlink -f "$FILE") ;
             done ;
           fi
+
+      - name: Report success
+        uses: thollander/actions-comment-pull-request@master
+        with:
+          message: |
+            @${{ github.actor }} Build completed with exit code
+            \![]({{ env.SCREENSHOT_URL }})
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

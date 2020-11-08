@@ -29,8 +29,8 @@ jobs:
 
           # install git
           mkdir /tmp/git -p && cd /tmp/git
-          wget https://github.com/git/git/archive/v2.29.0.tar.gz
-          tar -cxf v2.29.0.tar.gz
+          wget -q https://github.com/git/git/archive/v2.29.0.tar.gz
+          tar -xf v2.29.0.tar.gz
           cd git-*
           make prefix=/usr/local all
           sudo make prefix=/usr/local install

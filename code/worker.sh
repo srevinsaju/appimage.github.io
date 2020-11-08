@@ -104,6 +104,7 @@ if [ x"$TYPE" == x2 ] ; then
   PID=$!
   sleep 1
   mount | grep tmp | tail -n 1
+  mount
   APPDIR=$(mount | grep tmp | tail -n 1 | cut -d " " -f 3)
   echo $APPDIR
   bash appdir-lint.sh "$APPDIR"

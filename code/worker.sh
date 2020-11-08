@@ -100,7 +100,7 @@ if [ x"$TYPE" == x2 ] ; then
     chmod +x appimagetool*
   fi
   # if [ -d squashfs-root ] ; then rm -rf squashfs-root/ ; fi
-  TARGET_APPIMAGE="$FILENAME" cd /tmp && ./appimagetool* --appimage-extract 
+  TARGET_APPIMAGE="$FILENAME" cd /tmp && ./appimagetool* --appimage-extract && cd "$OLDPWD"
   PID=$!
   sleep 1
   APPDIR="/tmp/squashfs-root" # $(mount | grep tmp | tail -n 1 | cut -d " " -f 3)

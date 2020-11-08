@@ -387,9 +387,6 @@ cp "$ICONFILE" "database/$INPUTBASENAME/icons/$ICONSIZE/"
 
 echo "==========================================="
 
-if [ x"$TYPE" == x2 ] ; then
-  kill $PID # fuse
-fi
 if [ x"$TYPE" == x1 ] ; then
   sudo umount -l /mnt
 fi

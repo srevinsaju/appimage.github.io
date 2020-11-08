@@ -410,10 +410,10 @@ set -x
 #sudo wget -c -q "https://github.com/AppImage/AppImageHub/releases/download/deps/appstreamcli-x86_64.AppImage"
 sudo wget -c -q "https://github.com/AppImage/appimage.github.io/releases/download/deps/appstreamcli-x86_64.AppImage"
 sudo chmod a+x appstreamcli-x86_64.AppImage
-./appstreamcli-x86_64.AppImage --appimage-extract ; mv squashfs-root appstreamcli.AppDir # TODO: remove need for this
+# TARGET_APPIMAGE="appstreamcli-x86_64.AppImage" ./appimagetool*.AppImage --appimage-extract ; mv squashfs-root appstreamcli.AppDir # TODO: remove need for this
 # Does not seem to work 
-echo "$(realpath appstreamcli.AppDir)/root_overlay/lib/x86_64-linux-gnu/ld-2.23.so --library-path $(realpath appstreamcli.AppDir)/root_overlay/usr/lib/x86_64-linux-gnu/ $(realpath appstreamcli.AppDir)/root_overlay/usr/bin/appstreamcli" | sudo tee -a /usr/bin/appstreamcli
-sudo chmod +x /usr/bin/appstreamcli
+# echo "$(realpath appstreamcli.AppDir)/root_overlay/lib/x86_64-linux-gnu/ld-2.23.so --library-path $(realpath appstreamcli.AppDir)/root_overlay/usr/lib/x86_64-linux-gnu/ $(realpath appstreamcli.AppDir)/root_overlay/usr/bin/appstreamcli" | sudo tee -a /usr/bin/appstreamcli
+# sudo chmod +x /usr/bin/appstreamcli
 # For Jekyll Now
 ##### for INPUTBASENAME in database/*; do
   INPUTBASENAME=${INPUTBASENAME##*/} # Remove path up to last /
@@ -426,7 +426,7 @@ sudo chmod +x /usr/bin/appstreamcli
   # Description
   DESKTOP_COMMENT=$(grep "^Comment=.*" database/$INPUTBASENAME/*.desktop | cut -d '=' -f 2- )
   if [ -f database/$INPUTBASENAME/*appdata.xml ] ; then
-    appstreamcli convert database/$INPUTBASENAME/*appdata.xml database/$INPUTBASENAME/appdata.yaml
+    TARGET_APPIMAGE="appstreamcli-x86_64.AppImage" ./appimagetool-* --appimae-extract-and-run convert database/$INPUTBASENAME/*appdata.xml database/$INPUTBASENAME/appdata.yaml
     SUMMARY=$(cat database/$INPUTBASENAME/*appdata.xml | xmlstarlet sel -t -m "/component/summary[1]" -v .) || true
     if [ x"$SUMMARY" != x"" ] ; then
       echo "description: $SUMMARY" >> apps/$INPUTBASENAME.md

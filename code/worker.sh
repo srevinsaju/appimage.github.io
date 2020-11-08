@@ -4,7 +4,7 @@ URL=$(cat $1 | head -n 1)
 echo $URL
 
 if [[ "$GITHUB_REF" == *"/pull/"* ]] ; then
-  IS_PULL_REQUEST=1
+  export IS_PULL_REQUEST=1
 fi
 
 INPUTBASENAME=$(basename $1)
@@ -536,6 +536,7 @@ echo "==========================================="
 
 # If this a PR, then just check whether the files have generated
 # See https://github.com/AppImage/appimage.github.io/issues/476 for more information
+echo "IS_PULL_REQUEST: $IS_PULL_REQUEST"
 if [[ "$IS_PULL_REQUEST" == "1" ]]; then 
   cat "apps/${INPUTBASENAME}.md" || exit 1
   cat "database/${INPUTBASENAME}/"*.desktop || exit 1 # Asterisk must not be inside quotes, https://travis-ci.org/AppImage/appimage.github.io/builds/360847207#L782

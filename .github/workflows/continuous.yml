@@ -43,12 +43,7 @@ jobs:
         run: |
           export APPIMAGE_EXTRACT_AND_RUN=1
           echo "$FILES" ; if [ x"$FILES" == x ] ; then echo "Variable FILES is empty." && exit 1 ; fi
-          if [ x"$FILES" != x ] ; then 
-            for FILE in $FILES ; do 
-              echo "$FILE" ; 
-              xvfb-run --auto-servernum bash -e code/worker.sh $(readlink -f "$FILE") ;
-            done ;
-          fi
+          xvfb-run --auto-servernum bash -e code/worker.sh $(readlink -f "$FILES") ;
 
       - name: Report success
         if: ${{ github.event_name == 'pull_request' }}

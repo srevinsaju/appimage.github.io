@@ -55,7 +55,8 @@ jobs:
           # sudo bash code/prep-dummy-soundcard.sh
           echo "Detected changes in the following files"
           set +x
-          git diff --name-only $GITHUB_SHA..master | grep data 
+          git branch -a
+          git diff --name-only $GITHUB_SHA .. master | grep data 
           if [[ $? -eq 1 ]]; exit 0
           FILES=$(git diff --name-only $GITHUB_SHA..master | grep data)
           echo "FILES=$FILES" >> $GITHUB_ENV

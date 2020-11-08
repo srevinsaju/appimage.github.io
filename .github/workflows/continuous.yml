@@ -39,7 +39,7 @@ jobs:
           if [[ $? -eq 1 ]]; then 
             exit 0
           fi
-          FILES="data/Subsurface"
+          FILES="data/appimagetool"
           echo "FILES=$FILES" >> $GITHUB_ENV
           
       - name: Test

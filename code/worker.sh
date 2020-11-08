@@ -536,7 +536,7 @@ echo "==========================================="
 
 # If this a PR, then just check whether the files have generated
 # See https://github.com/AppImage/appimage.github.io/issues/476 for more information
-if [ "$IS_PULL_REQUEST" -eq 1 ]; then 
+if [[ "$IS_PULL_REQUEST" == "1" ]]; then 
   cat "apps/${INPUTBASENAME}.md" || exit 1
   cat "database/${INPUTBASENAME}/"*.desktop || exit 1 # Asterisk must not be inside quotes, https://travis-ci.org/AppImage/appimage.github.io/builds/360847207#L782
   ls -lh "database/${INPUTBASENAME}/screenshot.png" || exit 1

@@ -542,7 +542,7 @@ if [ "$IS_PULL_REQUEST" -eq 1 ]; then
   ls -lh "database/${INPUTBASENAME}/screenshot.png" || exit 1
   SCREENSHOT_URL=`curl --upload-file "database/${INPUTBASENAME}/screenshot.png" https://transfersh.com/screenshot.png`
   echo $SCREENSHOT_URL
-  if [ "$GITHUB_ACTIONS" == true ]; 
+  if [ "$GITHUB_ACTIONS" == true ]; then 
       echo "SCREENSHOT_URL=$SCREENSHOT_URL" >> $GITHUB_ENV
   fi
   echo "Since we are on a Pull Request and the required files are there, we are assuming the test is OK"

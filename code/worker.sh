@@ -99,6 +99,7 @@ if [ x"$TYPE" == x2 ] ; then
     wget -c -q https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
     chmod +x appimagetool*
   fi
+  echo $PWD
   # if [ -d squashfs-root ] ; then rm -rf squashfs-root/ ; fi
   TARGET_APPIMAGE="$FILENAME" cd /tmp && ./appimagetool* --appimage-extract && cd "$OLDPWD"
   PID=$!

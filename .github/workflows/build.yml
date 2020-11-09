@@ -34,7 +34,7 @@ jobs:
           set +x
           git pull origin master
           git -P log | grep $GITHUB_SHA
-          git diff --name-only $GITHUB_SHA origin/gh-actions | grep data 
+          # git diff --name-only $GITHUB_SHA origin/gh-actions | grep data 
           FILES="$(git log -1 -p data/ | grep +++ | cut -d '/' -f 2- | sed -e 's|dev/null||g' | tail -n 1)"
           echo "FILES=$FILES" >> $GITHUB_ENV
           

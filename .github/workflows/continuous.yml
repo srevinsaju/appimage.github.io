@@ -50,6 +50,6 @@ jobs:
         with:
           message: |
             @${{ github.actor }} Build completed with exit code
-            \![]({{ env.SCREENSHOT_URL }})
+            \![](${{ env.SCREENSHOT_URL }})
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

@@ -1,0 +1,57 @@
+
+name: Continuous
+on: 
+  - push
+
+jobs:
+  AppImage:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        container: ['xenial']
+    container:
+      image: srevinsaju/appimagetestenv-${{ matrix.container }}
+    steps:
+      - name: Setup up User
+        run: |
+          apt update
+          apt install -y sudo
+          echo "github ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+          useradd -m github
+          usermod -aG sudo github
+          su - github
+      
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+ 
+      - name: Detect the newly added apps
+        run: |
+          # show the changed files
+          # sudo bash code/prep-dummy-soundcard.sh
+          echo "Detected changes in the following files"
+          set +x
+          git pull origin master
+          git -P log | grep $GITHUB_SHA
+          git diff --name-only $GITHUB_SHA origin/gh-actions | grep data 
+          FILES="$(git diff --name-only $GITHUB_SHA origin/gh-actions | grep data | tail -n 1)"
+          echo "FILES=$FILES" >> $GITHUB_ENV
+          
+      - name: Test
+        run: |
+          export APPIMAGE_EXTRACT_AND_RUN=1
+          echo "$FILES" ; if [ x"$FILES" == x ] ; then echo "Variable FILES is empty." && exit 1 ; fi
+          xvfb-run --auto-servernum bash -e code/worker.sh $(readlink -f "$FILES") ;
+          rm -rf *.log ./**/*.log
+          rm -rf database/*.yaml
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@3.5.9
+        with:
+          GIT_CONFIG_NAME : 'AppImage Boi'
+          GIT_CONFIG_EMAIL: 'appimageboi@srevinsaju.me'
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: ghpages2
+
+

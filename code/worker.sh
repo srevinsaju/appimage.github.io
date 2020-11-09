@@ -244,9 +244,9 @@ sudo sysctl kernel.unprivileged_userns_clone=1 # https://github.com/AppImage/app
 
 # reset does not work here
 if [ x"$TERMINAL" == xfalse ] ; then
-  ./"$FILENAME" 2>&1 | tee /tmp/$FILENAME-output.log & 
+  ./"$FILENAME" 2>&1 | tee $HOME/$FILENAME-output.log & 
 else
-  xterm -hold -e ./"$FILENAME" --help 2>&1 | tee /tmp/$FILENAME-output.log &
+  xterm -hold -e ./"$FILENAME" --help 2>&1 | tee $HOME/$FILENAME-output.log &
 fi
 APID=$!
 sleep 15

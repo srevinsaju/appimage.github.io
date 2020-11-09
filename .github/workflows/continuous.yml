@@ -49,7 +49,7 @@ jobs:
         uses: thollander/actions-comment-pull-request@master
         with:
           message: |
-            @${{ github.actor }} Build completed with exit code
-            \![](${{ env.SCREENSHOT_URL }})
+            "@${{ github.actor }} Build completed with exit code"
+            "![](${{ env.SCREENSHOT_URL }})"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

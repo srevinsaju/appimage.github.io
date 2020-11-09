@@ -244,9 +244,9 @@ sudo sysctl kernel.unprivileged_userns_clone=1 # https://github.com/AppImage/app
 
 # reset does not work here
 if [ x"$TERMINAL" == xfalse ] ; then
-  ./"$FILENAME" &
+  ./"$FILENAME" 2>&1 | tee /tmp/$FILENAME-output.log & 
 else
-  xterm -hold -e ./"$FILENAME" --help &
+  xterm -hold -e ./"$FILENAME" --help 2>&1 | tee /tmp/$FILENAME-output.log &
 fi
 APID=$!
 sleep 15
@@ -549,4 +549,6 @@ if [[ "$IS_PULL_REQUEST" == "1" ]]; then
   echo "Since we are on a Pull Request and the required files are there, we are assuming the test is OK"
   exit 0
 fi
+
+
 

@@ -53,3 +53,10 @@ jobs:
             "![](${{ env.SCREENSHOT_URL }})"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+
+      - name: Upload logs
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v1.0.0
+        with:  
+          name: build-logs.log
+          path: /tmp/BeingTested.AppImage.log

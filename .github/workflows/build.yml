@@ -49,6 +49,7 @@ jobs:
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.5.9
         with:
+          FOLDER: .
           GIT_CONFIG_NAME : 'AppImage Boi'
           GIT_CONFIG_EMAIL: 'appimageboi@srevinsaju.me'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

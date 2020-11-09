@@ -12,7 +12,7 @@ jobs:
         uses: thollander/actions-comment-pull-request@master
         with:
           message: |
-            "BUILD [#${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) triggered by ${{ github.actor }} @ ${{ github.sha }}"
+            BUILD [#${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) triggered by ${{ github.actor }} @ ${{ github.sha }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
@@ -62,8 +62,8 @@ jobs:
         uses: thollander/actions-comment-pull-request@master
         with:
           message: |
-            "@${{ github.actor }} Build completed with exit code"
-            "![](${{ env.SCREENSHOT_URL }})"
+            @${{ github.actor }} Build completed with exit code
+            ![](${{ env.SCREENSHOT_URL }})
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 

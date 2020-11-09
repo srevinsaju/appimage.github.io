@@ -4,6 +4,19 @@ on:
   - pull_request
 jobs:
 
+  PreAnnounce:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Announce
+        if: ${{ always() }}
+        uses: thollander/actions-comment-pull-request@master
+        with:
+          message: |
+            "BUILD [#${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) triggered by ${{ github.actor }} @ ${{ github.sha }}"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+
   AppImage:
     runs-on: ubuntu-latest
     strategy:

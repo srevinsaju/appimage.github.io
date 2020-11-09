@@ -40,6 +40,10 @@ jobs:
           
       - name: Test
         run: |
+          # variables we should receive
+          # * APIM_SCREENSHOT_URL
+          # * APIM_EXIT_CODE
+          # * APIM_OUTPUT
           export APPIMAGE_EXTRACT_AND_RUN=1
           echo "$FILES" ; if [ x"$FILES" == x ] ; then echo "Variable FILES is empty." && exit 1 ; fi
           xvfb-run --auto-servernum bash -e code/worker.sh $(readlink -f "$FILES") ;
@@ -49,7 +53,9 @@ jobs:
         uses: thollander/actions-comment-pull-request@master
         with:
           message: |
-            "@${{ github.actor }} Build completed with exit code"
-            "![](${{ env.SCREENSHOT_URL }})"
+            '@${{ github.actor }} Build completed with exit code'
+            '**Screenshot:**'
+            '![](${{ env.SCREENSHOT_URL }})'
+            
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

@@ -244,9 +244,9 @@ sudo sysctl kernel.unprivileged_userns_clone=1 # https://github.com/AppImage/app
 
 # reset does not work here
 if [ x"$TERMINAL" == xfalse ] ; then
-  ./"$FILENAME" &
+  firejail --quiet --noprofile --net=none --appimage ./"$FILENAME" &
 else
-  xterm -hold -e ./"$FILENAME" --help &
+  xterm -hold -e firejail --quiet --noprofile --net=none --appimage ./"$FILENAME" --help &
 fi
 APID=$!
 sleep 15
@@ -544,7 +544,7 @@ if [[ "$IS_PULL_REQUEST" == "1" ]]; then
   SCREENSHOT_URL=`curl --upload-file "database/${INPUTBASENAME}/screenshot.png" https://transfersh.com/screenshot.png`
   echo $SCREENSHOT_URL
   if [ "$GITHUB_ACTIONS" == true ]; then 
-      echo "SCREENSHOT_URL=$SCREENSHOT_URL" >> $GITHUB_ENV
+      echo "APIM_SCREENSHOT_URL=$SCREENSHOT_URL" >> $GITHUB_ENV
   fi
   echo "Since we are on a Pull Request and the required files are there, we are assuming the test is OK"
   exit 0

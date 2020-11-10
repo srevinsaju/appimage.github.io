@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Search | {{ catalog.title }}</title>
+    {% include 'head.html' %}
+    <link rel="stylesheet" href="{{ catalog.base_url }}/css/search.css">
+  </head>
+  <body>
+    {% include 'navigation.html' %}
+
+    <!-- Search Results - indicator -->
+    <section style="margin-top: 3.25em;" class="hero is-primary">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">
+            Search results
+          </h1>
+
+          <form id="appimage-search-container">
+            <div class="form-row">
+              <input id="appimage-search-box"
+                class="input appimage-search-input"
+                placeholder="Search for AppImages!"
+                autofocus name="q"
+              />
+              <button class="button is-success" type="submit" style="margin-left: 15px;width: 48px;height: 48px;border-radius:50%">
+                <i class="fa fa-search"></i>
+              </button>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- All the other code comes here! -->
+
+    <!-- Appimages card sections -->
+    <section id="appimages-list" class="section" style="margin-top: 2em;">
+      <div class="container">
+
+        <div class="columns is-multiline is-desktop" style="margin: 1em 0;">
+          <div id="col-0" class="column is-one-third-desktop appimage-project-column">
+
+          </div>
+          <div id="col-1" class="column is-one-third-desktop appimage-project-column">
+
+          </div>
+          <div id="col-2" class="column is-one-third-desktop appimage-project-column">
+
+          </div>
+        </div>
+      </div>
+    </section>  
+    {% include 'footer.html' %}
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/minisearch@2.2.2/dist/umd/index.min.js"></script>
+    <script src="{{ catalog.base_url }}/js/utils.js"></script>
+    <script src="{{ catalog.base_url }}/js/search.js"></script>
+    {% include 'light_dark_theme.html' %}
+
+    <script>
+      $(document).ready(function(){
+        const queryString = window.location.search;
+        console.log(queryString);
+        const urlParams = new URLSearchParams(queryString);
+        const query = urlParams.get('q')
+        console.log(query);
+
+        if (query) {
+          $('#appimage-search-box').val(query)
+        }
+
+        loadAllAppImageCards();
+
+      });
+    </script>
+
+  </body>
+</html>

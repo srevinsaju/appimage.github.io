@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>{{ appimage.title_formatted }} | {{ catalog.title }}</title>
+    {% include 'head.html' %}
+  </head>
+  <body>
+    {% include 'navigation.html' %}
+
+    <!-- Hero / Featured Header -->
+    <section style="margin-top: 3.25em;" class="hero is-medium is-bold">
+      <div class="hero-body">
+        <div class="container">
+          <div class="columns is-desktop">
+              <div class="column is-one-third-desktop has-text-left has-text-right-desktop">
+                <img class="appimage-hero-img " src="{{ appimage.icon }}"
+                     alt="{{ appimage.title }} logo">
+              </div>
+              <div class="column has-text-left has-text-left-desktop appimage-right-description-box">                          
+                <h1 class="title">
+                    {{ appimage.title_formatted }}
+                </h1>
+                <h2 class="subtitle">
+                  {{ appimage.maintainer }}
+                  {% if appimage.is_verified %}
+                    <i class="fa fa-check-circle"></i>
+                  {% endif %}
+
+                </h2>
+                <h3>
+                    {{ appimage.description }}
+                </h3>
+                <div class="field is-grouped is-grouped-multiline appimage-left-top-margin">
+                  {{ appimage.categories_html }}
+                </div>
+                {{ appimage.links_formatted }}
+
+              </div>
+
+          </div>
+          {{ appimage.screenshots_html }}
+
+        </div>
+      </div>
+    </section>
+
+    <!-- All the other code comes here! -->
+    <!-- AppImage information -->
+    <section class="section">
+      <div class="container">
+        {{ content }}
+
+      </div>
+    </section>
+    <section>
+
+    </section>
+    {% include 'footer.html' %}
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="{{ catalog.base_url }}/js/utils.js"></script>
+    {% include 'light_dark_theme.html' %}
+
+  </body>
+</html>

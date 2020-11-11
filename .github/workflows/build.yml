@@ -1,7 +1,5 @@
 name: Build and Deploy
 on:
-  schedule:
-    - cron: '0 * * * *'
   push:
     branches:
       - master
@@ -26,8 +24,7 @@ jobs:
         run: |
           echo $(realpath .)
           pip3 install -r requirements.txt
-          curl -H "Authorization: token ${{ secrets.GH_TOKEN }}" https://api.github.com/rate_limit
-          python -m generator --generate-app-pages --generate-app-list --generate-categories-pages --copy-theme --noconfirm --gh-token=${{ secrets.GITHUB_TOKEN }}
+          python -m generator --generate-app-pages --generate-app-list --generate-categories-pages --copy-theme --noconfirm
 
 
       - name: Deploy 🚀
